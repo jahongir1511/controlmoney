@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Xarajat Qo'shish{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Xarajat Qo'shish</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Xarajat Qo'shish</button>
+    </form>
+</div>
+
+<style>
+    .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    form p {
+        margin-bottom: 10px;
+    }
+
+    button {
+        background-color: #d9534f;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #c9302c;
+    }
+</style>
+{% endblock %}

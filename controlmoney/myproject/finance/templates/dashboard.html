@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Boshqaruv Paneli</h2>
+<style>
+    .dashboard {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard h3 {
+        color: #333;
+    }
+
+    .summary, .monthly-yearly, .recent-transactions {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .summary p, .monthly-yearly p {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    .recent-transactions ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .recent-transactions li {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .recent-transactions li:nth-child(even) {
+        background: #f1f1f1;
+        padding: 10px;
+        border-radius: 4px;
+    }
+
+    .recent-transactions li:nth-child(odd) {
+        background: #fff;
+        padding: 10px;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="dashboard">
+    <section class="summary">
+        <h3>Moliya Xulosasi</h3>
+        <p><strong>Umumiy Daromad:</strong> {{ total_income }} soʻm</p>
+        <p><strong>Umumiy Xarajatlar:</strong> {{ total_expenses }} soʻm</p>
+        <p><strong>Qoldiq:</strong> {{ net_balance }} soʻm</p>
+    </section>
+
+    <section class="monthly-yearly">
+        <h3>Ushbu Oy</h3>
+        <p><strong>Daromad:</strong> {{ monthly_income }} soʻm</p>
+        <p><strong>Xarajatlar:</strong> {{ monthly_expenses }} soʻm</p>
+
+        <h3>Ushbu Yil</h3>
+        <p><strong>Daromad:</strong> {{ yearly_income }} soʻm</p>
+        <p><strong>Xarajatlar:</strong> {{ yearly_expenses }} soʻm</p>
+    </section>
+
+    <section class="recent-transactions">
+        <h3>Yaqinda Oʻtkazilgan Operatsiyalar</h3>
+        <h4>Yaqinda Daromadlar</h4>
+        <ul>
+            {% for income in recent_incomes %}
+            <li>{{ income.date }}: {{ income.amount }} soʻm - {{ income.description }}</li>
+            {% empty %}
+            <li>Yaqinda daromadlar mavjud emas.</li>
+            {% endfor %}
+        </ul>
+
+        <h4>Yaqinda Xarajatlar</h4>
+        <ul>
+            {% for expense in recent_expenses %}
+            <li>{{ expense.date }}: {{ expense.amount }} soʻm - {{ expense.description }}</li>
+            {% empty %}
+            <li>Yaqinda xarajatlar mavjud emas.</li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+{% endblock %}

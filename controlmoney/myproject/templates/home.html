@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Moliyaviy Bosh Sahifa{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+    }
+    h1, h2 {
+        color: #333;
+    }
+    .dashboard-section, .form-section, .report-section {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .dashboard-section ul, .report-section ul {
+        list-style: none;
+        padding: 0;
+    }
+    .dashboard-section li, .report-section li {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+    .form-section h2 {
+        margin-top: 0;
+    }
+    .form-section button {
+        background-color: #5cb85c;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    .form-section button:hover {
+        background-color: #4cae4c;
+    }
+</style>
+
+<div class="container">
+    <h1>Moliyaviy Bosh Sahifaga Xush Kelibsiz</h1>
+
+    <div class="dashboard-section">
+        <h2>Hisoblar</h2>
+        <ul>
+            {% for account in accounts %}
+                <li>{{ account.name }}: ${{ account.balance }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Xarajatlar</h2>
+        <ul>
+            {% for expense in expenses %}
+                <li>{{ expense.category }}: ${{ expense.amount }} kuni {{ expense.date }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Daromadlar</h2>
+        <ul>
+            {% for income in incomes %}
+                <li>{{ income.source }}: ${{ income.amount }} kuni {{ income.date }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="form-section">
+        <h2>Daromad Qo'shish</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ income_form.as_p }}
+            <button type="submit" name="add_income">Daromad Qo'shish</button>
+        </form>
+
+        <h2>Xarajat Qo'shish</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ expense_form.as_p }}
+            <button type="submit" name="add_expense">Xarajat Qo'shish</button>
+        </form>
+    </div>
+
+    <div class="report-section">
+        <h2>Haftalik Hisobot</h2>
+        <ul>
+            <li>Jami Xarajatlar: ${{ weekly_expenses.amount__sum }}</li>
+            <li>Jami Daromadlar: ${{ weekly_incomes.amount__sum }}</li>
+        </ul>
+
+        <h2>Oylik Hisobot</h2>
+        <ul>
+            <li>Jami Xarajatlar: ${{ monthly_expenses.amount__sum }}</li>
+            <li>Jami Daromadlar: ${{ monthly_incomes.amount__sum }}</li>
+        </ul>
+
+        <h2>Yillik Hisobot</h2>
+        <ul>
+            <li>Jami Xarajatlar: ${{ yearly_expenses.amount__sum }}</li>
+            <li>Jami Daromadlar: ${{ yearly_incomes.amount__sum }}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

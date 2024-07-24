@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Finance App{% endblock %}</title>
+    <style>
+        /* Basic reset and styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Header and navigation styling */
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 15px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        nav ul li a:hover {
+            background: #555;
+            border-radius: 5px;
+        }
+
+        .user-info {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            color: #fff;
+        }
+
+        .user-info span {
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        /* Main content styling */
+        main {
+            padding: 20px;
+        }
+
+        /* Datepicker styling */
+        .ui-datepicker {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">home</a></li>
+                <li><a href="{% url 'finance_home' %}">Finance</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'add_income' %}">Add Income</a></li>
+                    <li><a href="{% url 'add_expense' %}">Add Expense</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    <span>Welcome {{ user.username }}</span>
+                </div>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize the date picker for inputs with the class 'datepicker'
+            $('.datepicker').datepicker({
+                dateFormat: 'yy-mm-dd' // Adjust the date format as needed
+            });
+        });
+    </script>
+</body>
+</html>
